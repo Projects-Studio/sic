@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Southern Industrial Contractors | The Art of Construction</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=Inter:wght@200;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #b8924e;
+            --bg: #fdfcf9;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --stone: #f4f1ea;
+            --glass: rgba(255, 255, 255, 0.7);
+            --transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --serif: 'Cormorant Garamond', serif;
+            --accent: 'Cinzel', serif;
+            --body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--body); 
+            background: var(--bg); 
+            color: var(--text-dark); 
+            line-height: 1.8; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed; top: 0; width: 100%; padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(253, 252, 249, 0.85); z-index: 1000; backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-family: var(--accent); font-weight: 700; font-size: 1.3rem; letter-spacing: 5px; color: var(--text-dark); }
+        .logo span { color: var(--primary); }
+        nav ul { display: flex; list-style: none; }
+        nav ul li a { 
+            color: var(--text-dark); text-decoration: none; margin-left: 45px; 
+            font-size: 0.7rem; font-family: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+        }
+
+        /* --- Hero --- */
+        .hero { height: 110vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bg-video { width: 100%; height: 100%; object-fit: cover; }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 0; }
+        .hero-content { position: relative; z-index: 1; color: var(--text-light); }
+        .hero-content h1 { font-family: var(--serif); font-size: clamp(3.5rem, 13vw, 6.5rem); line-height: 0.9; font-weight: 400; }
+        .highlight { font-family: var(--accent); font-size: 0.45em; letter-spacing: 18px; color: var(--primary); display: block; margin-top: 20px; }
+        .btn-primary-hero { border: 1px solid var(--text-light); color: var(--text-light); padding: 20px 55px; text-decoration: none; font-size: 0.8rem; font-family: var(--accent); letter-spacing: 5px; text-transform: uppercase; transition: var(--transition); display: inline-block; margin-top: 40px;}
+        .btn-primary-hero:hover { border-color: var(--primary); color: var(--primary); background: rgba(255,255,255,0.05); }
+
+        /* --- About --- */
+        .about-scroll-container { display: flex; }
+        .sticky-visual { position: sticky; top: 0; height: 100vh; width: 50%; overflow: hidden; }
+        .sticky-visual img { width: 100%; height: 100%; object-fit: cover; transition: opacity 1s ease; }
+        .scroll-text { width: 50%; padding: 0 8%; background: #fff; }
+        .step { height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .step h2 { font-family: var(--serif); font-size: 4rem; margin-bottom: 20px; font-weight: 300; font-style: italic; }
+
+        /* --- Services Section --- */
+        .services-section {
+            padding: 120px 8%;
+            background: var(--stone);
+            text-align: center;
+        }
+
+        .section-title { 
+            font-family: var(--accent); 
+            font-size: 0.9rem; 
+            margin-bottom: 60px; 
+            letter-spacing: 12px; 
+            font-weight: 400; 
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            position: relative;
+            background: var(--glass);
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 2px;
+            text-align: left;
+            overflow: hidden; 
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            /* Hardware acceleration to prevent lag */
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* Premium Shine Animation */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.6),
+                transparent
+            );
+            transform: skewX(-20deg);
+            transition: 0.8s;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::before {
+            left: 150%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .glass-card h3 { 
+            font-family: var(--serif); 
+            font-size: 2.5rem; 
+            font-weight: 300; 
+            line-height: 1.1; 
+            color: var(--text-dark);
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .glass-card p { 
+            font-family: var(--body); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            color: var(--primary); 
+            font-weight: 600; 
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-number { 
+            font-family: var(--accent); 
+            font-size: 4rem; 
+            position: absolute; 
+            top: 30px; 
+            right: 40px; 
+            opacity: 0.1;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .glass-card:hover .card-number {
+            opacity: 0.3;
+            color: var(--primary);
+        }
+
+        /* --- Service Video Container --- */
+        .card-video-box {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 30px;
+            overflow: hidden;
+            border-radius: 2px;
+            background: #000;
+        }
+
+        .card-video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: var(--transition);
+            filter: grayscale(40%);
+        }
+
+        .glass-card:hover .card-video-box video {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* --- Enhanced Contact & Footer --- */
+        .footer-contact-wrapper {
+            background: var(--bg);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 85vh;
+            width: 100%;
+        }
+
+        .contact-form-container {
+            padding: 120px 10%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-form-container h2 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+        }
+
+        .contact-map {
+            width: 100%;
+            height: 100%;
+            filter: grayscale(1) contrast(1.1) brightness(0.9);
+            background: #e5e3df;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Premium Floating Label Form */
+        .premium-form .form-group {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .premium-form input, .premium-form textarea {
+            width: 100%;
+            padding: 15px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            font-family: var(--body);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.4s;
+            color: var(--text-dark);
+        }
+
+        .premium-form label {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            font-family: var(--accent);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+            pointer-events: none;
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .premium-form input:focus ~ label,
+        .premium-form input:not(:placeholder-shown) ~ label,
+        .premium-form textarea:focus ~ label,
+        .premium-form textarea:not(:placeholder-shown) ~ label {
+            top: -15px;
+            font-size: 0.55rem;
+            color: var(--primary);
+        }
+
+        .premium-form input:focus, .premium-form textarea:focus {
+            border-bottom-color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 22px;
+            background: var(--text-dark);
+            color: #fff;
+            border: none;
+            font-family: var(--accent);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary);
+        }
+
+        /* Footer Details */
+        .footer-base {
+            padding: 100px 8% 40px;
+            background: #fff;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 80px;
+            padding-bottom: 80px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer-head {
+            font-family: var(--accent);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { 
+            text-decoration: none; 
+            color: #666; 
+            font-size: 0.85rem; 
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--primary); }
+
+        .footer-info { font-style: normal; color: #666; font-size: 0.85rem; line-height: 2.2; }
+        .footer-info a { text-decoration: none; color: inherit; }
+
+        .footer-tagline { max-width: 320px; font-size: 0.9rem; color: #888; margin-top: 25px; line-height: 1.6; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: #bbb;
+            text-transform: uppercase;
+        }
+
+        .footer-socials a {
+            margin-left: 40px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-family: var(--accent);
+            transition: color 0.3s;
+        }
+
+        .footer-socials a:hover { color: var(--primary); }
+
+        @media (max-width: 1024px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .contact-map { height: 450px; order: 2; }
+            .contact-form-container { order: 1; padding: 80px 8%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+
+        /* --- Projects Horizontal Layout --- */
+        .projects-horizontal-wrapper {
+            height: 400vh; /* Scroll length */
+            background: var(--bg);
+            position: relative;
+        }
+
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title.centered {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .projects-scroll-track {
+            display: flex;
+            padding: 0 10vw;
+            gap: 80px;
+            will-change: transform;
+        }
+
+        .wide-project-card {
+            flex: 0 0 85vw;
+            height: 65vh;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
+        .wide-project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 50px;
+            background: linear-gradient(transparent, rgba(255,255,255,1) 75%);
+        }
+
+        .project-details h3 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-dark);       
+        }
+
+        .project-details p {
+            font-family: var(--body);
+            font-size: 1rem;
+            color: #444;
+            max-width: 100%;
+            line-height: 1.6;
+            /* 3-line limit with ellipsis */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .wide-project-card { flex: 0 0 90vw; height: 50vh; }
+            .project-details { padding: 25px; }
+            .project-details h3 { font-size: 1.6rem; }
+        }
+
+        /* --- Working Process Section (Full Width & Stable) --- */
+        .process-section {
+            background: var(--stone);
+            padding-top: 100px;
+            overflow: visible; /* Required for sticky to work correctly */
+        }
+
+        .process-cards-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .sticky-card {
+            position: -webkit-sticky; /* Safari support */
+            position: sticky;
+            top: 0; /* Sticks to the very top for seamless stacking */
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            background: white;
+            overflow: hidden;
+            /* Hardware acceleration to fix shivering */
+            transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left Column: Video */
+        .card-visual {
+            background: #000;
+            height: 100%;
+            width: 100%;
+        }
+
+        .card-visual video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Right Column: Text Content */
+        .card-text {
+            padding: 10% 12%; /* Fluid padding for premium feel */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .process-num {
+            font-family: var(--accent);
+            color: var(--primary);
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .card-text h3 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .card-text p {
+            font-family: var(--body);
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+
+        .process-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .process-steps li {
+            font-family: var(--accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+        }
+
+        .process-steps li::before {
+            content: "";
+            width: 20px;
+            height: 1px;
+            background: var(--primary);
+            margin-right: 15px;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 1024px) {
+            .card-content { grid-template-columns: 1fr; }
+            .card-visual { height: 40vh; }
+            .card-text { padding: 40px; height: 60vh; }
+        }        
+
+    </style>
+</head>
+<header class="navbar">
+        <div class="logo">SOUTHERN<span> INDUSTRIAL CONTRACTORS</span></div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">The Heritage</a></li>
+                <li><a href="#services">Expertise</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="video-container">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="assets/banner_video.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="hero-content">
+            <h1>Excellence in <br><span class="highlight">Construction</span></h1>
+            <p><br>Mission Driven. People Centered. Since 2005.</p>
+            <a href="#contact" class="btn-primary-hero">Request a Consultation</a>
+        </div>
+    </section>
+
+    <section id="about" class="about-scroll-container">
+        <div class="sticky-visual">
+            <img src="assets/about1.webp" id="dynamic-img" alt="Industrial Facility">
+        </div>
+        <div class="scroll-text">
+            <div class="step" data-img="assets/about2.webp">
+                <h2>Our Mission</h2>
+                <p>We believe that safety and structural integrity are not mutually exclusive. Our builds prioritize the industrial experience within the energy space.</p>
+            </div>
+            <div class="step" data-img="assets/about1.webp">
+                <h2>Proven Quality</h2>
+                <p>Every project is a unique commission. We use the industry's latest technology to ensure a finish that stands the test of time.</p>
+            </div>
+            <div class="step" data-img="assets/about4.webp">
+                <h2>Safe Delivery</h2>
+                <p>Our safety is a paramount concern. We maintain rigorous protocols to ensure that every site operates at the highest global standards.</p>
+            </div>
+            <div class="step" data-img="assets/about5.webp">
+                <h2>Expert Teams</h2>
+                <p>Success is measured by satisfaction. We employ only proven professionals to provide the utmost priority to your industrial needs.</p>
+            </div>                        
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <h2 class="section-title">THE CAPABILITIES</h2>
+        
+        <div class="services-grid">
+            <div class="glass-card">
+                <div class="card-number">01</div>
+                <div>
+                    <p>Project Leadership</p>
+                    <h3>Industrial<br>Construction</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service1.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            
+            <div class="glass-card">
+                <div class="card-number">02</div>
+                <div>
+                    <p>Structural Innovation</p>
+                    <h3>Heavy Concrete<br>Structures</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service2.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            
+            <div class="glass-card">
+                <div class="card-number">03</div>
+                <div>
+                    <p>Ecological Mastery</p>
+                    <h3>Site Work &<br>Grading</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service3.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            
+            <div class="glass-card">
+                <div class="card-number">04</div>
+                <div>
+                    <p>Urban Foundations</p>
+                    <h3>Millwright &<br>Rigging</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service4.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-number">05</div>
+                <div>
+                    <p>Legacy Interiors</p>
+                    <h3>Plant Relocation<br>Services</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service5.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-number">06</div>
+                <div>
+                    <p>Future Mapping</p>
+                    <h3>Facility<br>Modernization</h3>
+                </div>
+                <div class="card-video-box">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/service6.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-horizontal-wrapper">
+        <div class="sticky-container">
+            <h2 class="section-title centered">Selected Works</h2>
+            
+            <div class="projects-scroll-track">
+                <div class="wide-project-card">
+                    <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=1400" alt="Ash Grove Cement">
+                    <div class="project-details">
+                        <h3>Ash Grove Cement</h3>
+                        <p>A masterclass in industrial scale. This $300M expansion utilized advanced GPS grading and massive concrete placement to create a seamless modernization of the existing plant.</p>
+                    </div>
+                </div>
+
+                <div class="wide-project-card">
+                    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400" alt="Drax Biomass">
+                    <div class="project-details">
+                        <h3>Drax Biomass</h3>
+                        <p>Our flagship civil project focused on complex foundations and structural steel. The design integrated specialized crane foundations with reinforced building slabs.</p>
+                    </div>
+                </div>
+
+                <div class="wide-project-card">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400" alt="Roseburg Forest">
+                    <div class="project-details">
+                        <h3>Roseburg Forest</h3>
+                        <p>Defining the modern manufacturing horizon. This project featured 125,000 SF of building slab and precision equipment pits designed for peak operational efficiency.</p>
+                    </div>
+                </div>
+
+                <div class="wide-project-card">
+                    <img src="assets/about5.webp" alt="Reynolds Packaging">
+                    <div class="project-details">
+                        <h3>Reynolds Packaging</h3>
+                        <p>An exploration of efficiency within industrial logistics. This modernization replaced aging furnace foundations with specialized equipment capable of doubling capacity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>   
+    
+    <section id="process" class="process-section">
+        <h2 class="section-title centered">The Methodology</h2>
+        
+        <div class="process-cards-wrapper">
+            <div class="process-card sticky-card" id="card-1">
+                <div class="card-content">
+                    <div class="card-visual">
+                        <video autoplay muted loop playsinline>
+                            <source src="assets/service1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="card-text">
+                        <span class="process-num">01</span>
+                        <h3>Common Sense Genesis</h3>
+                        <p>Every project begins with a dialogue. We translate your industrial vision into a structural narrative, balancing technical ambition with on-site feasibility.</p>
+                        <ul class="process-steps">
+                            <li>Site Analysis & Modeling</li>
+                            <li>Industrial Storyboarding</li>
+                            <li>Critical Path Selection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-card sticky-card" id="card-2">
+                <div class="card-content">
+                    <div class="card-visual">
+                        <video autoplay muted loop playsinline>
+                            <source src="assets/service2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="card-text">
+                        <span class="process-num">02</span>
+                        <h3>Precision Operations</h3>
+                        <p>We leverage cutting-edge GPS technology and 3D modeling to ensure every millimeter of the foundation is optimized for heavy load performance.</p>
+                        <ul class="process-steps">
+                            <li>Structural Optimization</li>
+                            <li>Safety Protocol Integration</li>
+                            <li>Advanced Civil Simulation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-card sticky-card" id="card-3">
+                <div class="card-content">
+                    <div class="card-visual">
+                        <video autoplay muted loop playsinline>
+                            <source src="assets/service5.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="card-text">
+                        <span class="process-num">03</span>
+                        <h3>Professional Execution</h3>
+                        <p>Construction is an art form. Our skilled professionals manage every detail on-site to ensure the final facility ages gracefully and exceeds standards.</p>
+                        <ul class="process-steps">
+                            <li>Turnkey Project Management</li>
+                            <li>Quality Assurance Protocols</li>
+                            <li>Final Operational Handover</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+
+    <footer id="contact" class="footer-contact-wrapper">
+        <div class="contact-grid">
+            
+            <div class="contact-form-container">
+                <span class="process-num">Inquiries</span>
+                <h2>Start your <br><em>next project.</em></h2>
+                <form class="premium-form" id="apexContactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" required placeholder=" ">
+                        <label for="name">Full Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" required placeholder=" ">
+                        <label for="email">Corporate Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="vision" rows="4" required placeholder=" "></textarea>
+                        <label for="vision">The Vision</label>
+                    </div>
+                    <button type="submit" class="btn-submit">Submit Inquiry</button>
+                </form>
+            </div>
+
+            <div class="contact-map">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3378.1824367946974!2d-91.75841662435265!3d32.39148417332616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x862f9955743a1311%3A0xc3f83769c02d183d!2s460%20Julia%20St%2C%20Rayville%2C%20LA%2071269!5e0!3m2!1sen!2sus!4v1715424000000!5m2!1sen!2sus" 
+                    style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+
+        <div class="footer-base">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">SOUTHERN<span> INDUSTRIAL CONTRACTORS</span></div>
+                    <p class="footer-tagline">Since 2005, crafting the frameworks of industrial progress.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-head">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#about">The Heritage</a></li>
+                        <li><a href="#services">Expertise</a></li>
+                        <li><a href="#projects">Selected Works</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-head">Main Office</h4>
+                    <address class="footer-info">
+                        158 Industrial Loop<br>
+                        Rayville, LA 71269<br>
+                        <a href="tel:+13187288808">+1 (318) 728-8808</a><br>
+                        <a href="mailto:info@sicllc.net">info@sicllc.net</a>
+                    </address>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Southern Industrial Contractors. All Rights Reserved.</p>
+                <div class="footer-socials">
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        const steps = document.querySelectorAll('.step');
+        const dynamicImg = document.getElementById('dynamic-img');
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const newSrc = entry.target.getAttribute('data-img');
+                    dynamicImg.style.opacity = 0;
+                    setTimeout(() => {
+                        dynamicImg.src = newSrc;
+                        dynamicImg.style.opacity = 1;
+                    }, 400);
+                }
+            });
+        }, { threshold: 0.6 });
+        steps.forEach(step => aboutObserver.observe(step));
+
+        // Horizontal Scroll Logic
+        const projectSection = document.querySelector('.projects-horizontal-wrapper');
+        const scrollTrack = document.querySelector('.projects-scroll-track');
+
+        window.addEventListener('scroll', () => {
+            const sectionTop = projectSection.offsetTop;
+            const sectionHeight = projectSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const scrollPosition = window.scrollY;
+
+            if (scrollPosition >= sectionTop && scrollPosition <= (sectionTop + sectionHeight - windowHeight)) {
+                const scrolledAmount = scrollPosition - sectionTop;
+                const totalScrollableWidth = sectionHeight - windowHeight;
+                const scrollPercent = scrolledAmount / totalScrollableWidth;
+                
+                // Calculate the translation based on track width
+                const trackWidth = scrollTrack.scrollWidth;
+                const maxMove = trackWidth - window.innerWidth + (window.innerWidth * 0.2);
+                const finalTranslate = scrollPercent * maxMove;
+
+                scrollTrack.style.transform = `translateX(-${finalTranslate}px)`;
+            }
+        });
+
+        // Ensure videos play smoothly when card comes into view
+        const processVideos = document.querySelectorAll('.card-visual video');
+
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.play();
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        processVideos.forEach(video => videoObserver.observe(video));    
+        
+        // Contact Form Submission Handling
+        const contactForm = document.getElementById('apexContactForm');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Premium Button Feedback
+                const submitBtn = contactForm.querySelector('.btn-submit');
+                const originalText = submitBtn.innerText;
+                
+                submitBtn.innerText = "Sending...";
+                submitBtn.style.opacity = "0.7";
+                submitBtn.disabled = true;
+
+                // Simulate delivery delay
+                setTimeout(() => {
+                    submitBtn.innerText = "Inquiry Received";
+                    submitBtn.style.background = "#b8924e";
+                    submitBtn.style.opacity = "1";
+                    
+                    // Optional: Reset form
+                    contactForm.reset();
+                }, 1500);
+            });
+        }        
+
+    </script>
+</body>
+</html>
